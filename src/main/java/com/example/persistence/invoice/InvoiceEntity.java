@@ -134,7 +134,12 @@ public class InvoiceEntity {
 
   @JsonIgnore
   public String getFileName() {
-    return filePath.substring(filePath.lastIndexOf(File.separator) + 1);
+    return getFilePath().substring(getFilePath().lastIndexOf(File.separator) + 1);
+  }
+
+  public String getFilePath() {
+    return StringUtil.normalizePath(filePath);
+
   }
 
   public void updateFromInvoice(Invoice invoice) {

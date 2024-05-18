@@ -103,4 +103,18 @@ public class StringUtil {
   public static String displayDateTime(ZonedDateTime zonedDateTime) {
     return zonedDateTime.format(DISPLAY_DATETIME_FORMATER);
   }
+
+    public static String normalizePath(String path) {
+      // Replace all backslashes with forward slashes
+      String standardizedPath = path.replace("\\", "/");
+
+      // Get the correct separator for the operating system
+      String osSeparator = File.separator;
+
+      // Replace forward slashes with the OS-specific separator
+      String normalizedPath = standardizedPath.replace("/", osSeparator);
+
+      return normalizedPath;
+
+  }
 }
