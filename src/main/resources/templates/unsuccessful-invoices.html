@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Invoice Changes</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script th:src="@{/js/functions.js}"></script>
+  <div>
+    <h2>Helpful Links</h2>
+    <p><a href="/app/invoices">Invoices To Export</a></p>
+    <p><a href="/app/invoices/by-sent-date">Invoices By Sent Date</a></p>
+    <p><a href="/app/invoices/by-invoice-date">Invoices By Invoice Date</a></p>
+    <p><a href="/app/invoices/unsuccessful-invoices">Unsuccessful Invoices</a></p>
+    <p><a href="/app/config/run-log">Run Log</a></p>
+  </div>
+</head>
+
+<body>
+
+
+<h2>Unsuccessful Invoices</h2>
+<table border="1">
+  <tr>
+    <th>Id</th>
+    <th>Sent Time</th>
+    <th>Receiver</th>
+    <th>File Path</th>
+    <th>Error Message</th>
+    <th>Email Title</th>
+    <th>Invoice Status</th>
+    <th>Message Id</th>
+
+    <!-- Add more columns as needed -->
+  </tr>
+  <tr th:each="invoice : ${invoices}">
+    <td>
+      <a th:href="${ '/app/invoices/' + invoice.getId() + '/edit'}" th:text="${invoice.getId()}"></a>
+    </td>
+    <td th:text="${#temporals.format(invoice.getSentTime(), 'dd/MM/YYYY HH:mm:ss')}"></td>
+    <td th:text="${invoice.getReceiver()}"></td>
+    <td>
+      <a th:href="${ '/app/files/' + invoice.getFileName()+ '?path=' + invoice.getFilePath()} " th:text="${invoice.getFilePath()}">Download File</a>
+    </td>
+    <td th:text="${invoice.getErrorMessage()}"></td>
+    <td th:text="${invoice.getEmailTitle()}"></td>
+    <td th:text="${invoice.getStatus()}"></td>
+    <td th:text="${invoice.getMessageId()}"></td>
+
+    <!-- Add more cells for other properties -->
+  </tr>
+</table>
+
+</body>
+</html>

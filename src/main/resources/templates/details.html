@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Invoice Changes</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script th:src="@{/js/functions.js}"></script>
+
+  <div>
+    <h2>Helpful Links</h2>
+    <p><a href="/app/invoices">Invoices To Export</a></p>
+    <p><a href="/app/invoices/by-sent-date">Invoices By Sent Date</a></p>
+    <p><a href="/app/invoices/by-invoice-date">Invoices By Invoice Date</a></p>
+    <p><a href="/app/invoices/unsuccessful-invoices">Unsuccessful Invoices</a></p>
+    <p><a href="/app/config/run-log">Run Log</a></p>
+  </div>
+</head>
+
+<body>
+
+<h2>Invoice Details</h2>
+  <table border="1">
+    <!-- Header row -->
+    <tr>
+      <th>Invoice ID</th>
+      <td th:text="${invoice.id}"></td>
+    </tr>
+
+    <tr>
+      <th>Invoice Date</th>
+      <td th:text="${invoice.getInvoiceDateStr()}"></td>
+    </tr>
+    <tr>
+      <th>Invoice No</th>
+      <td th:text="${invoice.invoiceNo}"></td>
+    </tr>
+    <tr>
+      <th>Seller</th>
+      <td th:text="${invoice.seller}"></td>
+    </tr>
+    <tr>
+      <th>Seller Tax Code</th>
+      <td th:text="${invoice.sellerTaxCode}"></td>
+    </tr>
+    <tr>
+      <th>Seller Address</th>
+      <td th:text="${invoice.sellerAddress}"></td>
+    </tr>
+    <tr>
+      <th>Buyer</th>
+      <td th:text="${invoice.buyer}"></td>
+    </tr>
+    <tr>
+      <th>Sub Total</th>
+      <td th:text="${invoice.getSubTotalStr()}"></td>
+    </tr>
+    <tr>
+      <th>VAT Rate</th>
+      <td th:text="${invoice.vatRate + '%'}"></td>
+    </tr>
+    <tr>
+      <th>VAT Amount</th>
+      <td th:text="${invoice.getVatAmountStr()}"></td>
+    </tr>
+    <tr>
+      <th>Total Payment</th>
+      <td th:text="${invoice.getTotalPaymentStr()}"></td>
+    </tr>
+    <tr>
+      <th>File Path</th>
+      <td th:text="${invoice.filePath}"></td>
+    </tr>
+
+    <tr>
+      <th>Receiver</th>
+      <td th:text="${invoice.receiver}"></td>
+    </tr>
+    <tr>
+      <th>Original Receiver</th>
+      <td th:text="${invoice.originalReceiver}"></td>
+    </tr>
+
+    <tr>
+      <th>Invoice Status</th>
+      <td th:text="${invoice.invoiceStatus}"></td>
+    </tr>
+    <tr>
+      <th>Email Message</th>
+      <td th:text="${outbox.messageId}"></td>
+    </tr>
+    <tr>
+      <th>Email Title</th>
+      <td th:text="${outbox.title}"></td>
+    <tr>
+    <tr>
+      <th>Email Cc</th>
+      <td th:text="${outbox.getCc()}"></td>
+    <tr>
+    <tr>
+      <th>Email Thread</th>
+      <td th:text="${outbox.threadId}"></td>
+    <tr>
+    <tr>
+      <th>Email Sent Time</th>
+      <td th:text="${outbox.getSentTime()}"></td>
+    <tr>
+    <tr>
+      <th>Email Body</th>
+      <td th:text="${outbox.getBody()}"></td>
+    <tr>
+    <tr>
+      <th>Invoice Created Time</th>
+      <td th:text="${invoice.getCreatedTime()}"></td>
+    </tr>
+    <tr>
+      <th>Invoice Modified Time</th>
+      <td th:text="${invoice.getModifiedTime()}"></td>
+    </tr>
+    <!-- Add more rows for other properties -->
+  </table>
+  <br/> <!-- Add some space between tables -->
+
+
+<h2>Invoice Changes</h2>
+<table border="1">
+  <tr>
+    <th>Change ID</th>
+    <th>Change Content</th>
+    <th>Update Type</th>
+
+    <th>Updated Time</th>
+    <!-- Add more columns as needed -->
+  </tr>
+  <tr th:each="update : ${updates}">
+    <td th:text="${update.id}"></td>
+    <td th:text="${update.changeContent}"></td>
+    <td th:text="${update.updateType}"></td>
+    <td th:text="${update.createdTime}"></td>
+    <!-- Add more cells for other properties -->
+  </tr>
+</table>
+
+</body>
+</html>

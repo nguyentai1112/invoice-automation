@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Invoice</title>
+  <style>
+    /* Apply uniform styling to input fields */
+    div {
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: inline-block;
+      width: 120px; /* Adjust width as needed */
+      text-align: left;
+    }
+
+    input, textarea {
+      width: 300px; /* Adjust width as needed */
+      box-sizing: border-box;
+    }
+  </style>
+
+  <div>
+    <h2>Helpful Links</h2>
+    <p><a href="/app/invoices">Invoices To Export</a></p>
+    <p><a href="/app/invoices/by-sent-date">Invoices By Sent Date</a></p>
+    <p><a href="/app/invoices/by-invoice-date">Invoices By Invoice Date</a></p>
+    <p><a href="/app/invoices/unsuccessful-invoices">Unsuccessful Invoices</a></p>
+    <p><a href="/app/config/run-log">Run Log</a></p>
+  </div>
+</head>
+<body>
+
+<h2>Edit Invoice</h2>
+
+<form th:object="${invoice}" th:action="@{'/invoices/' + ${invoice.id} + '/edit'}" method="post">
+  <div>
+    <label for="invoiceNo">Invoice Number:</label>
+    <input type="text" id="invoiceNo" th:field="*{invoiceNo}" placeholder="001"/>
+  </div>
+
+  <div>
+    <label for="invoiceDate">Invoice Date:</label>
+    <input type="text" id="invoiceDate" name="invoiceDate" placeholder="30-10-2023" th:value="${invoice.getInvoiceDateStr()}" />
+  </div>
+
+  <div>
+    <label for="seller">Seller:</label>
+    <input type="text" id="seller" th:field="*{seller}" placeholder="CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ VŨ KIẾN" />
+  </div>
+
+  <!-- Address Fields -->
+  <div>
+    <label for="sellerTaxCode">Seller Tax Code:</label>
+    <textarea id="sellerTaxCode" th:field="*{sellerTaxCode}" placeholder="0318032123"></textarea>
+  </div>
+
+  <div>
+    <label for="buyer">Buyer:</label>
+    <input type="text" id="buyer" th:field="*{buyer}" placeholder="CÔNG TY TNHH CƠ KHÍ - THƯƠNG MẠI VĨNH THỊNH"/>
+  </div>
+
+  <!-- Payment Fields -->
+  <div>
+    <label for="subTotal">Subtotal:</label>
+    <input type="text" id="subTotal" th:field="*{subTotal}" placeholder="1000000"/>
+  </div>
+
+  <div>
+    <label for="vatAmount">VAT Amount:</label>
+    <input type="text" id="vatAmount" th:field="*{vatAmount}" placeholder="100000"/>
+  </div>
+
+  <div>
+    <label for="totalPayment">Total Payment:</label>
+    <input type="text" id="totalPayment" th:field="*{totalPayment}" placeholder="1100000" />
+  </div>
+
+  <!-- Other Fields -->
+
+  <!-- Add other input fields for other properties -->
+
+  <button type="submit">Save Changes</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Run Log Information</title>
+</head>
+<div>
+  <h2>Helpful Links</h2>
+  <p><a href="/app/invoices">Invoices To Export</a></p>
+  <p><a href="/app/invoices/by-sent-date">Invoices By Sent Date</a></p>
+  <p><a href="/app/invoices/by-invoice-date">Invoices By Invoice Date</a></p>
+
+  <p><a href="/app/invoices/unsuccessful-invoices">Unsuccessful Invoices</a></p>
+  <p><a href="/app/config/run-log">Run Log</a></p>
+</div>
+<body>
+<h1>Run Log Information</h1>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Run Time</th>
+    <th>Last Crawled Time</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Message Count</th>
+    <th>Duration</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="log : ${runLogs}">
+    <td th:text="${log.runTimeString}"></td>
+    <td th:text="${log.lastCrawledTimeString}"></td>
+    <td th:text="${log.startTimeString}"></td>
+    <td th:text="${log.endTimeString}"></td>
+    <td th:text="${log.processCount}"></td>
+    <td th:text="${log.duration}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

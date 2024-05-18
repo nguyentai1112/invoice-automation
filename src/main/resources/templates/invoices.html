@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Invoices</title>
+
+  <!-- Include jQuery from CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script th:src="@{/js/functions.js}"></script>
+
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+
+  <div>
+    <h2>Helpful Links</h2>
+    <p><a href="/app/invoices">Invoices To Export</a></p>
+    <p><a href="/app/invoices/unsuccessful-invoices">Unsuccessful Invoices</a></p>
+    <p><a href="/app/invoices/by-sent-date">Invoices By Sent Date</a></p>
+    <p><a href="/app/invoices/by-invoice-date">Invoices By Invoice Date</a></p>
+    <p><a href="/app/config/run-log">Run Log</a></p>
+  </div>
+</head>
+<body>
+
+<h2>Invoice List</h2>
+
+<!-- Dropdown for selecting email -->
+<select class="main-email-dropdown" id="main-email-dropdown" onchange="fetchInvoices()">
+  <option value="">Select Email</option>
+</select>
+
+<select id="quarterDropdown" onchange="fetchInvoices()">
+  <option th:each="quarter : ${quarters}" th:value="${quarter}" th:text="${quarter}"></option>
+
+</select>
+<button type="button" th:onclick="exportToExcel()">Export to Excel</button>
+
+
+
+<p></p>
+<div id="loadingSpinner" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+  <img th:src="@{/images/loading.gif}" alt="Loading" style="width: 200px; height: 200px;">
+</div>
+
+<table id="invoiceTable">
+  <thead>
+  <tr>
+    <th>Id</th>
+
+    <th>Invoice Date</th>
+    <th>Invoice No</th>
+    <th>Seller</th>
+    <th>Seller Tax Code</th>
+    <th>Buyer</th>
+    <th>Sub Total</th>
+    <th>Tax Total</th>
+    <th>Grand Total</th>
+    <th>Email</th>
+    <th>Original Receiver</th>
+    <th>Updated Email</th>
+    <th>Status</th>
+
+    <!-- ... additional headers for other properties ... -->
+    <th>Cc</th>
+    <th>Created Time</th>
+    <th>Modified Time</th>
+    <th>Update</th>
+    <th>Delete</th>
+
+
+  </tr>
+  </thead>
+  <tbody id="invoiceGrid">
+
+  </tbody>
+
+</table>
+<script>
+  // Fetch email data once and reuse it for all dropdowns
+  var emailData;
+  fetchEmailData().done(function (data) {
+    emailData = data;
+    var main_email_dropdown = $('#main-email-dropdown')
+    updateEmailDropdown(main_email_dropdown, emailData);
+    main_email_dropdown.val(emailData[0].email);
+    fetchInvoices();
+
+  });
+
+    function exportToExcel() {
+    // Get the values from #main-email-dropdown and #quarter
+    var mainEmail = $("#main-email-dropdown").val();
+    var quarter = $("#quarterDropdown").val();
+
+    // Check if values are not empty
+    if (mainEmail && quarter) {
+    // Construct the URL for your API endpoint
+    var apiUrl = "/app/invoices/download-excel?email=" + encodeURIComponent(mainEmail) + "&quarter=" + encodeURIComponent(quarter);
+
+    // Trigger the API call by redirecting to the constructed URL
+    window.location.href = apiUrl;
+  } else {
+    // Handle the case when values are not selected
+    alert("Please select values for main email and quarter.");
+  }
+  }
+</script>
+
+</body>
+</html>

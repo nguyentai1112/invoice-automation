@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Invoice Changes</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script th:src="@{/js/functions.js}"></script>
+  <div>
+    <h2>Helpful Links</h2>
+    <p><a href="/app/invoices">Invoices To Export</a></p>
+    <p><a href="/app/invoices/by-sent-date">Invoices By Sent Date</a></p>
+    <p><a href="/app/invoices/by-invoice-date">Invoices By Invoice Date</a></p>
+    <p><a href="/app/invoices/unsuccessful-invoices">Unsuccessful Invoices</a></p>
+    <p><a href="/app/config/run-log">Run Log</a></p>
+  </div>
+</head>
+
+<body>
+
+
+<h2>Invoices By Invoice Date</h2>
+<div>
+  <label for="sentDate">Pick Date:</label>
+  <input type="text" id="sentDate" name="sentDate" placeholder="30-10-2023" th:value="${date}" style="width: 80px;"/>
+  <button type="button" th:onclick="redirectToLink()">Get Data By Date</button>
+
+</div>
+<div><br></div>
+<table border="1">
+  <tr>
+    <th>Id</th>
+    <th>Message Id</th>
+    <th>Sent Time</th>
+    <th>Invoice Date</th>
+    <th>Receiver</th>
+    <th>Email Title</th>
+    <th>Invoice Status</th>
+    <th>Invoice No</th>
+    <th>File Path</th>
+    <th>Error Message</th>
+    <th>Created Time</th>
+
+    <!-- Add more columns as needed -->
+  </tr>
+  <tr th:each="invoice : ${invoices}">
+    <td>
+      <a th:href="${ '/app/invoices/' + invoice.getId() + '/edit'}" th:text="${invoice.getId()}"></a>
+    </td>
+    <td th:text="${invoice.getMessageId()}"></td>
+
+    <td th:text="${#temporals.format(invoice.getSentTime(), 'dd/MM/YYYY HH:mm:ss')}"></td>
+    <td th:text="${invoice.getInvoiceDate()}"></td>
+    <td th:text="${invoice.getReceiver()}"></td>
+    <td th:text="${invoice.getEmailTitle()}"></td>
+    <td th:text="${invoice.getStatus()}"></td>
+    <td th:text="${invoice.getInvoiceNumber()}"></td>
+    <td>
+      <a th:href="${ '/app/files/' + invoice.getFileName()+ '?path=' + invoice.getFilePath()} " th:text="${invoice.getFilePath()}">Download File</a>
+    </td>
+    <td th:text="${invoice.getErrorMessage()}"></td>
+    <td th:text="${#temporals.format(invoice.getCreatedTime(), 'dd/MM/YYYY HH:mm:ss')}"></td>
+
+
+
+    <!-- Add more cells for other properties -->
+  </tr>
+</table>
+
+</body>
+<script th:inline="javascript">
+  function redirectToLink() {
+    var sentDate = $('#sentDate');
+
+    var link = '/app/invoices/by-invoice-date?date=' + sentDate.val();
+    window.location.href = link;
+  }
+</script>
+</html>

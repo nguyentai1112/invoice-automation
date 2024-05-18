@@ -1,0 +1,10 @@
+### GET request with a header
+GET http://localhost:9999/app/invoices/927/retry
+### GET request with a header
+GET http://localhost:9999/app/invoices/928/retry
+### GET request with a header
+GET http://localhost:9999/app/invoices/1084/retry
+### GET request with a header
+GET http://localhost:9999/app/invoices/1097/retry
+### GET request with a header
+GET http://localhost:9999/app/invoices/3539/retry
